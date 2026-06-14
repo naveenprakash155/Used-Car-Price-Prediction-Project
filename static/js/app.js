@@ -188,8 +188,7 @@ predictBtn.addEventListener("click", async () => {
 
     renderResult(data, payload);
   } catch (err) {
-    errorMsg.textContent = err.message || "Network error — please try again.";
-    toggle(errorCard, true);
+    // errors handled silently
   } finally {
     btnText.hidden   = false;
     btnLoader.hidden = true;
