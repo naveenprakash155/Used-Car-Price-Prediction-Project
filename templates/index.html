@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CarMūlya — Used Car Price Predictor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+
+<!-- ════════════════════════════════════════
+     HEADER
+════════════════════════════════════════ -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="logo">
+      <span class="logo-icon">◈</span>
+      <span class="logo-text">Car<em>Mūlya</em></span>
+    </div>
+    <p class="header-tagline">AI-powered used car valuation for India</p>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════
+     HERO
+════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-inner">
+    <h1 class="hero-title">What's your car<br><span class="accent">actually</span> worth?</h1>
+    <p class="hero-sub">
+      Fill in your car's details and our ML model — trained on 10,000+
+      Indian market transactions — gives you an instant resale valuation.
+    </p>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">12</span><span class="stat-lbl">Brands</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="stat-num">60+</span><span class="stat-lbl">Models</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="stat-num">10</span><span class="stat-lbl">Cities</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="stat-num">4</span><span class="stat-lbl">Fuel Types</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     MAIN CONTENT
+════════════════════════════════════════ -->
+<main class="main-content">
+
+  <!-- ── FORM CARD ─────────────────────────── -->
+  <div class="card form-card">
+    <div class="card-header">
+      <h2>Car Details</h2>
+      <span class="card-badge">Step 1 of 1</span>
+    </div>
+
+    <div class="form-grid" id="carForm">
+
+      <!-- ROW 1: Brand + Model -->
+      <div class="form-group span-half">
+        <label for="brand">Brand / Make</label>
+        <div class="select-wrapper">
+          <select id="brand" name="brand" required>
+            <option value="">Select brand…</option>
+          </select>
+          <span class="select-arrow">▾</span>
+        </div>
+        <span class="field-error" id="err-brand"></span>
+      </div>
+
+      <div class="form-group span-half">
+        <label for="model">Model</label>
+        <div class="select-wrapper">
+          <select id="model" name="model" required disabled>
+            <option value="">Select model…</option>
+          </select>
+          <span class="select-arrow">▾</span>
+        </div>
+        <span class="field-error" id="err-model"></span>
+      </div>
+
+      <!-- ROW 2: Year + City -->
+      <div class="form-group span-half">
+        <label for="year">
+          Year of Manufacture
+          <span class="label-aside" id="year-display">2018</span>
+        </label>
+        <div class="slider-track">
+          <input type="range" id="year" name="year" min="1990" max="2024" value="2018" />
+          <div class="slider-labels">
+            <span>1990</span><span>2024</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group span-half">
+        <label for="city">City / Location</label>
+        <div class="select-wrapper">
+          <select id="city" name="city" required>
+            <option value="">Select city…</option>
+          </select>
+          <span class="select-arrow">▾</span>
+        </div>
+        <span class="field-error" id="err-city"></span>
+      </div>
+
+      <!-- ROW 3: Fuel + Transmission -->
+      <div class="form-group span-half">
+        <label>Fuel Type</label>
+        <div class="pill-group" id="fuel-pills">
+          <button type="button" class="pill" data-value="Petrol">⛽ Petrol</button>
+          <button type="button" class="pill" data-value="Diesel">🛢️ Diesel</button>
+          <button type="button" class="pill" data-value="CNG">💨 CNG</button>
+          <button type="button" class="pill" data-value="Electric">⚡ Electric</button>
+        </div>
+        <input type="hidden" id="fuel_type" name="fuel_type" />
+        <span class="field-error" id="err-fuel_type"></span>
+      </div>
+
+      <div class="form-group span-half">
+        <label>Transmission</label>
+        <div class="pill-group" id="trans-pills">
+          <button type="button" class="pill" data-value="Manual">🔧 Manual</button>
+          <button type="button" class="pill" data-value="Automatic">🤖 Automatic</button>
+        </div>
+        <input type="hidden" id="transmission" name="transmission" />
+        <span class="field-error" id="err-transmission"></span>
+      </div>
+
+      <!-- ROW 4: KM Driven + Owners -->
+      <div class="form-group span-half">
+        <label for="km_driven">
+          Kilometres Driven
+          <span class="label-aside" id="km-display">45,000 km</span>
+        </label>
+        <div class="slider-track">
+          <input type="range" id="km_driven" name="km_driven"
+                 min="500" max="300000" step="500" value="45000" />
+          <div class="slider-labels">
+            <span>500</span><span>3,00,000</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group span-half">
+        <label for="owners">
+          Previous Owners
+          <span class="label-aside" id="owners-display">1 owner</span>
+        </label>
+        <div class="owner-dots" id="owner-dots">
+          <button type="button" class="dot active" data-val="1" title="1 owner">1</button>
+          <button type="button" class="dot" data-val="2" title="2 owners">2</button>
+          <button type="button" class="dot" data-val="3" title="3 owners">3</button>
+          <button type="button" class="dot" data-val="4" title="4 owners">4</button>
+        </div>
+        <input type="hidden" id="owners" name="owners" value="1" />
+      </div>
+
+      <!-- SUBMIT -->
+      <div class="form-group span-full submit-row">
+        <button type="button" id="predictBtn" class="btn-predict">
+          <span class="btn-text">Predict Price</span>
+          <span class="btn-loader" hidden>
+            <svg class="spinner" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" fill="none" stroke-dasharray="31.4" stroke-dashoffset="10"/></svg>
+            Analysing…
+          </span>
+        </button>
+      </div>
+    </div><!-- /form-grid -->
+  </div><!-- /form-card -->
+
+
+  <!-- ── RESULT CARD ────────────────────────── -->
+  <div class="card result-card" id="resultCard" hidden>
+
+    <div class="result-top">
+      <div class="result-label">Estimated Resale Price</div>
+      <div class="result-price" id="resultPrice">₹0</div>
+      <div class="result-range" id="resultRange">₹0 – ₹0</div>
+      <div class="result-car-name" id="resultCarName"></div>
+    </div>
+
+    <!-- Deal Gauge -->
+    <div class="gauge-wrap">
+      <div class="gauge-track">
+        <div class="gauge-segments">
+          <div class="gauge-seg seg-great">Great</div>
+          <div class="gauge-seg seg-fair">Fair</div>
+          <div class="gauge-seg seg-over">Pricy</div>
+        </div>
+        <div class="gauge-needle" id="gaugeNeedle"></div>
+      </div>
+      <div class="gauge-labels">
+        <span>Great Deal</span>
+        <span>Fair Deal</span>
+        <span>Overpriced</span>
+      </div>
+    </div>
+
+    <div class="deal-badge-wrap">
+      <span class="deal-badge" id="dealBadge">—</span>
+    </div>
+
+    <!-- Breakdown pills -->
+    <div class="breakdown" id="breakdown"></div>
+
+    <!-- Disclaimer -->
+    <p class="disclaimer">
+      * AI-generated estimate. Actual resale price varies by condition, service history,
+        accident record, and negotiation. Verify with local dealers.
+    </p>
+  </div><!-- /result-card -->
+
+  <!-- ── ERROR CARD ─────────────────────────── -->
+  <div class="card error-card" id="errorCard" hidden>
+    <span class="error-icon">⚠</span>
+    <p id="errorMsg">Something went wrong.</p>
+  </div>
+
+</main>
+
+<!-- ════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════ -->
+<footer class="site-footer">
+  <p>CarMūlya &mdash; ML-powered valuation &middot; Data calibrated for Indian market</p>
+</footer>
+
+<!-- ════════════════════════════════════════
+     METADATA (injected by Flask)
+════════════════════════════════════════ -->
+<script id="meta-json" type="application/json">
+  {{ metadata | tojson }}
+</script>
+<script src="/static/js/app.js"></script>
+</body>
+</html>
